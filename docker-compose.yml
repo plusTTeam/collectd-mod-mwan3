@@ -1,0 +1,20 @@
+version: '3'
+
+services: 
+    collectd:
+        image: quay.io/signalfuse/collectd-alpine
+#        build: .
+        container_name: collectd-mod-mwan3
+        privileged: true
+        network_mode: host
+        volumes: 
+            - /:/hostfs:ro
+            - /var/run/docker.sock:/var/run/docker.sock
+            - ./plugins:/usr/share/collectd/mwan3-plugins
+            - ./configs:/etc/collectd/collectd.d
+            - ./signals:/var/run/mwan3track
+        environment: 
+            SF_API_TOKEN: test
+            SF_INGEST_HOST: ingest
+            COLLECTD_HOSTNAME: docker
+            COLLECTD_CONFIGS: /etc/collectd/collectd.d
